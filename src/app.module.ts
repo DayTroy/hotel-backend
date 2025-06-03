@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { GuestsModule } from './guests/guests.module';
 import { RoomsModule } from './rooms/rooms.module';
 import { RoomsCategoryModule } from './rooms-category/rooms-category.module';
+import { BookingsModule } from './bookings/bookings.module';
 
 @Module({
   imports: [
@@ -22,7 +23,8 @@ import { RoomsCategoryModule } from './rooms-category/rooms-category.module';
     RequestsModule,
     GuestsModule,
     RoomsModule,
-    RoomsCategoryModule],
+    RoomsCategoryModule,
+    BookingsModule],
   controllers: [AppController],
   providers: [AppService],
 })
