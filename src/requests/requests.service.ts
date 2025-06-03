@@ -13,7 +13,7 @@ export class RequestsService {
     private requestRepository: Repository<Request>,
   ) {}
 
-  create(createRequestDto: CreateRequestDto) {
+  async create(createRequestDto: CreateRequestDto) {
     const request = this.requestRepository.create(createRequestDto);
     return this.requestRepository.save(request);
   }
@@ -22,15 +22,15 @@ export class RequestsService {
     return this.requestRepository.find();
   }
 
-  findOne(id: string) {
+  async findOne(id: string): Promise<Request | null> {
     return this.requestRepository.findOne({ where: { requestId: id } });
   }
 
-  update(id: string, updateRequestDto: UpdateRequestDto) {
+  async update(id: string, updateRequestDto: UpdateRequestDto): Promise<any> {
     return this.requestRepository.update(id, updateRequestDto);
   }
 
-  remove(id: string) {
+  async remove(id: string): Promise<any> {
     return this.requestRepository.delete(id);
   }
 }
