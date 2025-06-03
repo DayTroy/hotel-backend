@@ -1,30 +1,30 @@
 import { Guest } from 'src/guests/entities/guest.entity';
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
 
-@Entity()
+@Entity('Request')
 export class Request {
-  @PrimaryGeneratedColumn()
-  requestId: number;
+  @PrimaryColumn('varchar', { length: 20 })
+  requestId: string;
 
-  @Column({ length: 100 })
+  @Column('varchar', { length: 30 })
   status: string;
 
-  @Column({ length: 30 })
-  phoneNumber: string;
-
-  @Column()
+  @Column('date')
   dateIn: Date;
 
-  @Column()
+  @Column('date')
   dateOut: Date;
 
-  @Column()
+  @Column('varchar', { length: 100 })
   description: string;
+
+  @Column('date')
+  creationDate: Date;
 
   @ManyToOne(() => Guest)
   @JoinColumn({ name: 'guestId' })
   guest: Guest;
 
-  @Column()
-  guestId: number;
+  @Column('char')
+  guestId: string;
 }

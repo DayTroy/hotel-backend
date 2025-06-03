@@ -1,13 +1,24 @@
-import { IsString, IsEmail, MinLength } from 'class-validator';
+import { IsString, IsEmail, IsDate, IsNotEmpty } from 'class-validator';
 
 export class CreateRequestDto {
-@IsString()
-  readonly name: string;
-
-  @IsEmail()
-  readonly email: string;
+  @IsString()
+  @IsNotEmpty()
+  readonly requestId: string;
 
   @IsString()
-  @MinLength(6)
-  readonly password: string;
+  @IsNotEmpty()
+  readonly status: string;
+
+  @IsDate()
+  readonly dateIn: Date;
+
+  @IsDate()
+  readonly dateOut: Date;
+
+  @IsString()
+  readonly description: string;
+
+  @IsString()
+  // @IsNotEmpty()
+  readonly guestId: string;
 }

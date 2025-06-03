@@ -14,22 +14,23 @@ export class RequestsService {
   ) {}
 
   create(createRequestDto: CreateRequestDto) {
-    return 'This action adds a new request';
+    const request = this.requestRepository.create(createRequestDto);
+    return this.requestRepository.save(request);
   }
 
   async findAll(): Promise<Request[]> {
     return this.requestRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} request`;
+  findOne(id: string) {
+    return this.requestRepository.findOne({ where: { requestId: id } });
   }
 
-  update(id: number, updateRequestDto: UpdateRequestDto) {
-    return `This action updates a #${id} request`;
+  update(id: string, updateRequestDto: UpdateRequestDto) {
+    return this.requestRepository.update(id, updateRequestDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} request`;
+  remove(id: string) {
+    return this.requestRepository.delete(id);
   }
 }

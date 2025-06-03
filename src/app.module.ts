@@ -15,7 +15,7 @@ import { GuestsModule } from './guests/guests.module';
       password: '123123', 
       database: 'hotel', 
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: true,
+      // synchronize: true,
     }),
     RequestsModule,
     GuestsModule],
