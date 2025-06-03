@@ -3,7 +3,7 @@ import { RoomsService } from './rooms.service';
 import { CreateRoomDto } from './dto/create-room.dto';
 import { UpdateRoomDto } from './dto/update-room.dto';
 
-@Controller('rooms')
+@Controller('api/rooms')
 export class RoomsController {
   constructor(private readonly roomsService: RoomsService) {}
 
@@ -19,16 +19,16 @@ export class RoomsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.roomsService.findOne(+id);
+    return this.roomsService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateRoomDto: UpdateRoomDto) {
-    return this.roomsService.update(+id, updateRoomDto);
+    return this.roomsService.update(id, updateRoomDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.roomsService.remove(+id);
+    return this.roomsService.remove(id);
   }
 }

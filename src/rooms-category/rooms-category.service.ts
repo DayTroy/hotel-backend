@@ -13,7 +13,8 @@ export class RoomsCategoryService {
   ){}
   
   async create(createRoomsCategoryDto: CreateRoomCategoryDto) {
-    return this.roomCategoryRepository.create(createRoomsCategoryDto);
+    const roomCategory = this.roomCategoryRepository.create(createRoomsCategoryDto);
+    return this.roomCategoryRepository.save(roomCategory);
   }
 
   async findAll(): Promise<RoomCategory[]> {
@@ -24,8 +25,9 @@ export class RoomsCategoryService {
     return this.roomCategoryRepository.findOne({ where: { roomCategoryId: id } });
   }
 
-  async update(id: string, updateRoomsCategoryDto: UpdateRoomCategoryDto): Promise<any> {
-    return this.roomCategoryRepository.update(id, updateRoomsCategoryDto);
+  async update(id: string, updateRoomsCategoryDto: UpdateRoomCategoryDto): Promise<RoomCategory | null> {
+    await this.roomCategoryRepository.update(id, updateRoomsCategoryDto);
+    return this.findOne(id);
   }
 
   async remove(id: string): Promise<any> {

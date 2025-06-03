@@ -16,6 +16,6 @@ export class Room {
   @JoinColumn({ name: 'roomCategoryId' })
   roomCategory: RoomCategory;
 
-  @Column('char')
+  @Column('varchar', { length: 20 })
   roomCategoryId: string;
 }
