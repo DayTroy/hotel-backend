@@ -7,6 +7,8 @@ import { GuestsModule } from './guests/guests.module';
 import { RoomsModule } from './rooms/rooms.module';
 import { RoomsCategoryModule } from './rooms-category/rooms-category.module';
 import { BookingsModule } from './bookings/bookings.module';
+import { AmenitiesModule } from './amenities/amenities.module';
+import { ProvidedAmenitiesModule } from './provided-amenities/provided-amenities.module';
 
 @Module({
   imports: [
@@ -24,7 +26,9 @@ import { BookingsModule } from './bookings/bookings.module';
     GuestsModule,
     RoomsModule,
     RoomsCategoryModule,
-    BookingsModule],
+    BookingsModule,
+    AmenitiesModule,
+    ProvidedAmenitiesModule],
   controllers: [AppController],
   providers: [AppService],
 })

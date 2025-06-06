@@ -1,5 +1,6 @@
 import { Entity, PrimaryColumn, Column, OneToMany } from "typeorm";
 import { Request } from "src/requests/entities/request.entity";
+import { BookingGuest } from "../../bookings/entities/booking-guest.entity";
 
 @Entity('Guest')
 export class Guest {
@@ -41,4 +42,7 @@ export class Guest {
 
     @OneToMany(() => Request, request => request.guest)
     requests: Request[];
+
+    @OneToMany(() => BookingGuest, bookingGuest => bookingGuest.guest)
+    bookingGuests: BookingGuest[];
 }
