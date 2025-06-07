@@ -38,6 +38,9 @@ export class Employee {
     @Column('varchar')
     jobPositionId: string;
 
+    @Column('varchar')
+    password: string;
+
     @ManyToOne(() => JobPosition)
     @JoinColumn({ name: 'jobPositionId' })
     jobPosition: JobPosition;

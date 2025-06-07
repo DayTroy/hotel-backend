@@ -13,6 +13,7 @@ import { DepartmentsModule } from './departments/departments.module';
 import { JobPositionsModule } from './job-positions/job-positions.module';
 import { EmployeesModule } from './employees/employees.module';
 import { CleaningsModule } from './cleanings/cleanings.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -36,7 +37,8 @@ import { CleaningsModule } from './cleanings/cleanings.module';
     DepartmentsModule,
     JobPositionsModule,
     EmployeesModule,
-    CleaningsModule],
+    CleaningsModule,
+    AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })

@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { Employee } from './entities/employee.entity';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class EmployeesService {
@@ -11,6 +12,13 @@ export class EmployeesService {
     @InjectRepository(Employee)
     private employeesRepository: Repository<Employee>,
   ) {}
+
+  async findByEmail(email: string): Promise<Employee | null> {
+    return this.employeesRepository.findOne({
+      where: { email },
+      relations: ['jobPosition'],
+    });
+  }
 
   async findAll(): Promise<Employee[]> {
     return this.employeesRepository.find({
@@ -29,8 +37,16 @@ export class EmployeesService {
   }
 
   async create(createEmployeeDto: CreateEmployeeDto): Promise<Employee> {
+    const existingEmployee = await this.findByEmail(createEmployeeDto.email);
+    if (existingEmployee) {
+      throw new BadRequestException('Employee with this email already exists');
+    }
+    
+    const hashedPassword = await bcrypt.hash(createEmployeeDto.password, 10);
+
     const employee = this.employeesRepository.create({
       ...createEmployeeDto,
+      password: hashedPassword,
       birthdate: new Date(createEmployeeDto.birthdate),
       dateOfEmployment: new Date(createEmployeeDto.dateOfEmployment)
     });

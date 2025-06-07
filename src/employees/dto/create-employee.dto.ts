@@ -1,4 +1,4 @@
-import { IsString, IsDate } from 'class-validator';
+import { IsString, IsDate, MinLength } from 'class-validator';
 
 export class CreateEmployeeDto {
     @IsString()
@@ -30,4 +30,8 @@ export class CreateEmployeeDto {
 
     @IsString()
     jobPositionId: string;
+
+    @IsString()
+    @MinLength(6, { message: 'Password must be at least 6 characters long' })
+    password: string;
 }
