@@ -12,6 +12,7 @@ import { ProvidedAmenitiesModule } from './provided-amenities/provided-amenities
 import { DepartmentsModule } from './departments/departments.module';
 import { JobPositionsModule } from './job-positions/job-positions.module';
 import { EmployeesModule } from './employees/employees.module';
+import { CleaningsModule } from './cleanings/cleanings.module';
 
 @Module({
   imports: [
@@ -34,7 +35,8 @@ import { EmployeesModule } from './employees/employees.module';
     ProvidedAmenitiesModule,
     DepartmentsModule,
     JobPositionsModule,
-    EmployeesModule],
+    EmployeesModule,
+    CleaningsModule],
   controllers: [AppController],
   providers: [AppService],
 })
