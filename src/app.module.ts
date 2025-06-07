@@ -9,6 +9,9 @@ import { RoomsCategoryModule } from './rooms-category/rooms-category.module';
 import { BookingsModule } from './bookings/bookings.module';
 import { AmenitiesModule } from './amenities/amenities.module';
 import { ProvidedAmenitiesModule } from './provided-amenities/provided-amenities.module';
+import { DepartmentsModule } from './departments/departments.module';
+import { JobPositionsModule } from './job-positions/job-positions.module';
+import { EmployeesModule } from './employees/employees.module';
 
 @Module({
   imports: [
@@ -28,7 +31,10 @@ import { ProvidedAmenitiesModule } from './provided-amenities/provided-amenities
     RoomsCategoryModule,
     BookingsModule,
     AmenitiesModule,
-    ProvidedAmenitiesModule],
+    ProvidedAmenitiesModule,
+    DepartmentsModule,
+    JobPositionsModule,
+    EmployeesModule],
   controllers: [AppController],
   providers: [AppService],
 })

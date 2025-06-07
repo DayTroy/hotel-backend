@@ -31,7 +31,7 @@ export class BookingsService {
 
   async create(createBookingDto: CreateBookingDto): Promise<Booking> {
     const newBooking = this.bookingsRepository.create(createBookingDto);
-    newBooking.bookingId = uuidv4();
+    newBooking.bookingId = `BKG-${uuidv4().toUpperCase().split('-')[0]}`;
     newBooking.status = 'Новый';
 
     const savedBooking = await this.bookingsRepository.save(newBooking);

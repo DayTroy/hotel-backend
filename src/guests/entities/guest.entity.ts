@@ -19,7 +19,7 @@ export class Guest {
     @Column('char', { nullable: true })
     gender: string;
 
-    @Column('char', { nullable: true })
+    @Column('date', { nullable: true })
     birthdate: string;
 
     @Column('char', { nullable: true })

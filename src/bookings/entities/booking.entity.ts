@@ -6,7 +6,7 @@ import { BookingGuest } from './booking-guest.entity';
 
 @Entity('Booking')
 export class Booking {
-  @PrimaryColumn('uuid')
+  @PrimaryColumn('varchar', { length: 20 })
   bookingId: string;
 
   @Column('date')
