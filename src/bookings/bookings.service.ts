@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException, BadRequestException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, BadRequestException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Like } from 'typeorm';
 import { Booking } from './entities/booking.entity';
@@ -89,6 +89,20 @@ export class BookingsService {
   }
 
   async remove(bookingId: string): Promise<void> {
-    await this.bookingsRepository.delete(bookingId);
+    const booking = await this.findOne(bookingId);
+    if (!booking) {
+      throw new NotFoundException(`Booking with ID ${bookingId} not found`);
+    }
+
+    // Удаляем связанные записи
+    if (booking.bookingGuests && booking.bookingGuests.length > 0) {
+      await this.bookingGuestsRepository.remove(booking.bookingGuests);
+    }
+
+    if (booking.providedAmenities && booking.providedAmenities.length > 0) {
+      await this.providedAmenitiesRepository.remove(booking.providedAmenities);
+    }
+
+    await this.bookingsRepository.remove(booking);
   }
 } 

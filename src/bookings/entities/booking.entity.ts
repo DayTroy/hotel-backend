@@ -28,9 +28,13 @@ export class Booking {
   @Column('varchar', { length: 20 })
   roomId: string;
 
-  @OneToMany(() => ProvidedAmenity, providedAmenity => providedAmenity.booking)
+  @OneToMany(() => ProvidedAmenity, providedAmenity => providedAmenity.booking, {
+    cascade: true
+  })
   providedAmenities: ProvidedAmenity[];
 
-  @OneToMany(() => BookingGuest, bookingGuest => bookingGuest.booking)
+  @OneToMany(() => BookingGuest, bookingGuest => bookingGuest.booking, {
+    cascade: true
+  })
   bookingGuests: BookingGuest[];
 } 
