@@ -1,6 +1,7 @@
-import { Controller, Post, Body, UnauthorizedException } from '@nestjs/common';
+import { Controller, Post, Body, UnauthorizedException, Get, UseGuards, Request } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Employee } from 'src/employees/entities/employee.entity';
+import { JwtAuthGuard } from './jwt-auth.guard';
 
 @Controller('api/auth')
 export class AuthController {
@@ -17,5 +18,11 @@ export class AuthController {
     } catch (error) {
       throw new UnauthorizedException('Invalid credentials');
     }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('profile')
+  async getProfile(@Request() req) {
+    return this.authService.getProfile(req.user.employeeId);
   }
 } 

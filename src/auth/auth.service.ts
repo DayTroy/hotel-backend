@@ -28,12 +28,22 @@ export class AuthService {
     const payload = { 
       sub: employee.employeeId,
       email: employee.email,
-      jobPositionId: employee.jobPositionId
+      jobPositionId: employee.jobPositionId,
+      jobPositionTitle: employee.jobPositionTitle
     };
 
     return {
       access_token: this.jwtService.sign(payload),
       employee: employee
     };
+  }
+
+  async getProfile(employeeId: string) {
+    const employee = await this.employeesService.findOne(employeeId);
+    if (!employee) {
+      throw new UnauthorizedException('Employee not found');
+    }
+    const { password, ...result } = employee;
+    return result;
   }
 } 
