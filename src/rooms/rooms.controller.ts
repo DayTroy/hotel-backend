@@ -24,10 +24,8 @@ export class RoomsController {
     @Query('checkOutDate') checkOutDate: string,
     @Query('guests') guests: number,
   ) {
-    console.log('Received dates:', { checkInDate, checkOutDate });
     const checkIn = new Date(checkInDate);
     const checkOut = new Date(checkOutDate);
-    console.log('Converted dates:', { checkIn, checkOut });
     return this.roomsService.findAvailableByDates({
       checkIn,
       checkOut,

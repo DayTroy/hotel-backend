@@ -51,6 +51,18 @@ export class RoomsService {
   }
 
   async remove(id: string): Promise<any> {
+    const bookings = await this.bookingRepository.find({
+      where: { roomId: id }
+    });
+
+    if (bookings.length > 0) {
+      throw new BadRequestException(
+        `Cannot delete room ${id} because it has ${bookings.length} associated bookings. ` +
+        'Please either: 1) Cancel all bookings for this room first, or ' +
+        '2) Mark the room as unavailable instead of deleting it.'
+      );
+    }
+
     return this.roomRepository.delete(id);
   }
 
