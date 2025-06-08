@@ -1,4 +1,4 @@
-import { IsDate, IsNotEmpty } from 'class-validator';
+import { IsDate, IsNotEmpty, IsNumber, Min } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class FindAvailableRoomsDto {
@@ -11,4 +11,8 @@ export class FindAvailableRoomsDto {
   @IsDate()
   @Type(() => Date)
   checkOut: Date;
+
+  @IsNumber()
+  @Min(1)
+  guests: number;
 } 

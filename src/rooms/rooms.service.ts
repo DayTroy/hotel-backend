@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import { CreateRoomDto } from './dto/create-room.dto';
 import { UpdateRoomDto } from './dto/update-room.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -56,6 +56,10 @@ export class RoomsService {
 
   async findAvailableByDates(findAvailableRoomsDto: FindAvailableRoomsDto) {
     const { checkIn, checkOut } = findAvailableRoomsDto;
+    
+    if (checkIn.getTime() > checkOut.getTime()) {
+      throw new BadRequestException('Дата заезда не может быть позже даты выезда');
+    }
 
     // Находим все комнаты
     const allRooms = await this.roomRepository.find({
@@ -64,9 +68,9 @@ export class RoomsService {
 
     // Находим все бронирования, которые пересекаются с указанным периодом
     const overlappingBookings = await this.bookingRepository
-      .createQueryBuilder('booking')
+      .createQueryBuilder('Booking')
       .where(
-        '(booking.checkIn <= :checkOut AND booking.checkOut >= :checkIn)',
+        '(Booking.checkInDate <= :checkOut AND Booking.checkOutDate >= :checkIn)',
         { checkIn, checkOut },
       )
       .getMany();

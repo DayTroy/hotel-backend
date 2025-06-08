@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { RoomsService } from './rooms.service';
 import { CreateRoomDto } from './dto/create-room.dto';
 import { UpdateRoomDto } from './dto/update-room.dto';
@@ -19,8 +19,20 @@ export class RoomsController {
   }
 
   @Get('available')
-  findAvailable() {
-    return this.roomsService.findAvailable();
+  findAvailableByDates(
+    @Query('checkInDate') checkInDate: string,
+    @Query('checkOutDate') checkOutDate: string,
+    @Query('guests') guests: number,
+  ) {
+    console.log('Received dates:', { checkInDate, checkOutDate });
+    const checkIn = new Date(checkInDate);
+    const checkOut = new Date(checkOutDate);
+    console.log('Converted dates:', { checkIn, checkOut });
+    return this.roomsService.findAvailableByDates({
+      checkIn,
+      checkOut,
+      guests,
+    });
   }
 
   @Get(':id')
@@ -36,10 +48,5 @@ export class RoomsController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.roomsService.remove(id);
-  }
-
-  @Post('available')
-  findAvailableByDates(@Body() findAvailableRoomsDto: FindAvailableRoomsDto) {
-    return this.roomsService.findAvailableByDates(findAvailableRoomsDto);
   }
 }
