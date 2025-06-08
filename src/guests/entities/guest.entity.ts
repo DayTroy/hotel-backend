@@ -40,9 +40,6 @@ export class Guest {
     @Column('char', { nullable: true })
     passportSeries: string;
 
-    @OneToMany(() => Request, request => request.guest)
-    requests: Request[];
-
     @OneToMany(() => BookingGuest, bookingGuest => bookingGuest.guest)
     bookingGuests: BookingGuest[];
 }

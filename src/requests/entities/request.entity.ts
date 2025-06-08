@@ -21,10 +21,6 @@ export class Request {
   @Column('date')
   creationDate: Date;
 
-  @ManyToOne(() => Guest)
-  @JoinColumn({ name: 'guestId' })
-  guest: Guest;
-
-  @Column('char')
-  guestId: string;
+  @Column('varchar', { length: 30 })
+  phoneNumber: string;
 }
