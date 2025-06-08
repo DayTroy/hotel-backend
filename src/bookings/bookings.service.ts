@@ -83,8 +83,75 @@ export class BookingsService {
     return finalBooking;
   }
 
-  async update(bookingId: string, updateBookingDto: Partial<Booking>): Promise<Booking | null> {
-    await this.bookingsRepository.update(bookingId, updateBookingDto);
+  async update(bookingId: string, updateBookingDto: Partial<CreateBookingDto>): Promise<Booking | null> {
+    const booking = await this.findOne(bookingId);
+    if (!booking) {
+      throw new NotFoundException(`Booking with ID ${bookingId} not found`);
+    }
+
+    // Обновляем основные поля брони
+    const { providedAmenities, guests, ...bookingData } = updateBookingDto;
+    
+    // Обновляем основные поля
+    Object.assign(booking, bookingData);
+
+    // Если есть обновления для дополнительных услуг
+    if (providedAmenities) {
+      // Удаляем старые услуги
+      if (booking.providedAmenities && booking.providedAmenities.length > 0) {
+        await this.providedAmenitiesRepository.remove(booking.providedAmenities);
+      }
+
+      // Создаем новые услуги
+      const newProvidedAmenities = providedAmenities.map(amenityDto => {
+        const providedAmenity = this.providedAmenitiesRepository.create(amenityDto);
+        providedAmenity.booking = booking;
+        return providedAmenity;
+      });
+      booking.providedAmenities = newProvidedAmenities;
+    }
+
+    // Если есть обновления для гостей
+    if (guests) {
+      // Удаляем старые связи с гостями
+      if (booking.bookingGuests && booking.bookingGuests.length > 0) {
+        await this.bookingGuestsRepository.remove(booking.bookingGuests);
+      }
+
+      // Создаем новые связи с гостями
+      const bookingGuestsToSave: BookingGuest[] = [];
+      for (const guestDto of guests) {
+        // Поиск гостя
+        let guestEntity = await this.guestsRepository.findOne({
+          where: { passportNumber: guestDto.passportNumber, passportSeries: guestDto.passportSeries }
+        });
+
+        if (!guestEntity) {
+          // Создать гостя если новый
+          guestEntity = this.guestsRepository.create(guestDto);
+          if (!guestEntity.guestId) {
+            guestEntity.guestId = uuidv4();
+          }
+          try {
+            guestEntity = await this.guestsRepository.save(guestEntity);
+          } catch (error) {
+            console.error('Error saving new guest:', error);
+            throw new BadRequestException('Failed to save one or more guest records.');
+          }
+        }
+
+        if (guestEntity) {
+          const bookingGuest = this.bookingGuestsRepository.create();
+          bookingGuest.booking = booking;
+          bookingGuest.guest = guestEntity;
+          bookingGuestsToSave.push(bookingGuest);
+        }
+      }
+      booking.bookingGuests = bookingGuestsToSave;
+    }
+
+    // Сохраняем все изменения
+    await this.bookingsRepository.save(booking);
     return this.findOne(bookingId);
   }
 
