@@ -25,5 +25,5 @@ export class ProvidedAmenity {
   quantity: number;
 
   @Column('varchar', { length: 30 })
-  totalPrice: string;
+  totalPrice: number;
 } 

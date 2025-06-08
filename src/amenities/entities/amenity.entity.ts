@@ -1,4 +1,5 @@
-import { Entity, PrimaryColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { ProvidedAmenity } from 'src/provided-amenities/entities/provided-amenity.entity';
+import { Entity, PrimaryColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
 
 @Entity('Amenity')
 export class Amenity {
@@ -10,4 +11,7 @@ export class Amenity {
 
   @Column('numeric', { precision: 10, scale: 2 })
   amenityPrice: number;
+
+  @OneToMany(() => ProvidedAmenity, (providedAmenity) => providedAmenity.amenity)
+  providedAmenities: ProvidedAmenity[];
 } 

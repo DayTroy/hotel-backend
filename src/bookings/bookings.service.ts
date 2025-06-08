@@ -73,7 +73,7 @@ export class BookingsService {
             providedAmenity.booking = savedBooking; // Связь с созданной бронью
             return providedAmenity;
         });
-        await this.providedAmenitiesRepository.save(providedAmenities);
+        savedBooking.providedAmenities = providedAmenities;
     }
 
     const finalBooking = await this.findOne(savedBooking.bookingId);
