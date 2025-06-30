@@ -14,16 +14,14 @@ import { JobPositionsModule } from './job-positions/job-positions.module';
 import { EmployeesModule } from './employees/employees.module';
 import { CleaningsModule } from './cleanings/cleanings.module';
 import { AuthModule } from './auth/auth.module';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres', 
-      password: '123123', 
-      database: 'hotel', 
+      url: process.env.DATABASE_URL,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       // synchronize: true,
     }),

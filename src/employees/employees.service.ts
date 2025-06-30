@@ -55,10 +55,8 @@ export class EmployeesService {
     
     try {
       const generatedPassword = this.generatePassword();
-      console.log('Generated password for new employee:', generatedPassword);
 
       const hashedPassword = await bcrypt.hash(generatedPassword, 10);
-      console.log('Password hashed successfully');
 
       const employee = this.employeesRepository.create({
         ...createEmployeeDto,
@@ -68,9 +66,7 @@ export class EmployeesService {
       });
 
       const savedEmployee = await this.employeesRepository.save(employee);
-      console.log('Employee saved successfully with ID:', savedEmployee.employeeId);
       
-      // Возвращаем сотрудника и сгенерированный пароль
       return {
         employee: savedEmployee,
         password: generatedPassword
